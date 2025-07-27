@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  flask-app-mqtt-kafka:
+    build: .
+    container_name: flask-app-mqtt-kafka
+    ports:
+      - "8003:8003"
+    volumes:
+      - ./service-account-key.json:/app/service-account-key.json
+    environment:
+      - GOOGLE_APPLICATION_CREDENTIALS=/app/service-account-key.json
+    command: ["python3", "app.py"]
+    restart: unless-stopped
+
