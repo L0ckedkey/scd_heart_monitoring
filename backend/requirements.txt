@@ -10,4 +10,4 @@ hrv-analysis==1.0.4
 Flask-MQTT==1.1.0
 pymysql
 PyJWT
-google-cloud-sql-connector
+cloud-sql-python-connector
