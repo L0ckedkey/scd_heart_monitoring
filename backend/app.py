@@ -52,8 +52,12 @@ def register_patient():
 
 @api_bp.route('/patient/additional-info', methods=['POST'])
 def update_patient():
-    return update_patient_data(request.get_json(), cnx, key_list=["id", "gender", "cholesterollevel", "isSmoker", "isHavingHypertension"])
-
+    return update_patient_data(
+        request.get_json(),
+        cnx,
+        key_list=["id", "gender", "cholesterollevel", "isSmoker", "isHavingHypertension"]
+    )
+    
 @api_bp.route('/patient/pin', methods=['POST'])
 def set_pin():
     return update_patient_data(request.get_json(), cnx, key_list=["id", "pin"])
@@ -102,7 +106,7 @@ def get_predictions():
 
 @app.route("/")
 def index():
-    return "Flask API berjalan dengan sukses (tanpa MQTT)!"
+    return "Flask API berjalan dengan sukses"
 
 # Menambahkan Blueprint
 app.register_blueprint(api_bp)

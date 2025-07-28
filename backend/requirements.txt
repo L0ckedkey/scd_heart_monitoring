@@ -11,3 +11,5 @@ Flask-MQTT==1.1.0
 pymysql>=0 
 PyJWT>=0
 cloud-sql-python-connector>=0
+mysql-connector-python==8.2.0
+sqlalchemy>=0
