@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  flask-app:
+    build: .
+    container_name: flask-app
+    ports:
+      - "8003:8003"
+    volumes:
+      - ./service-account-key.json:/app/service-account-key.json
+    environment:
+      - GOOGLE_APPLICATION_CREDENTIALS=/app/service-account-key.json
+    command: ["python3", "app.py"]
+    restart: unless-stopped
+    depends_on:
+      - broker
+
+  broker:
+    image: eclipse-mosquitto:latest
+    container_name: mosquitto-broker
+    ports:
+      - "1883:1883" # MQTT port
+    environment:
+      - MOSQUITTO_LISTENER=0.0.0.0
+    volumes:
+      - ./mosquitto/config/mosquitto.conf:/mosquitto/config/mosquitto.conf
+      - ./mosquitto/log:/mosquitto/log
+    restart: unless-stopped
