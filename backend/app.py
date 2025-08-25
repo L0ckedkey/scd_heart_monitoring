@@ -20,7 +20,7 @@ db_connection_name = os.getenv("DB_CONNECTION_NAME")
 # Flask app
 app = Flask(__name__)
 api_bp = Blueprint("api", __name__, url_prefix="/api/")
-CORS(app, origins=["http://localhost:3000"], supports_credentials=True, methods=["GET","POST","OPTIONS","DELETE"])
+CORS(app, supports_credentials=True)
 
 # Google Cloud SQL Connector
 connector = Connector()
