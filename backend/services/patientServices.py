@@ -186,6 +186,15 @@ def get_patients_with_consultation(cnx):
 
         patients_result = cnx.execute(sqlalchemy.text(str(q_patients).replace('"','`'))).fetchall()
         data = []
+        
+        sql_last_prediction = """
+            SELECT model_prediction
+            FROM model_results
+            WHERE patientID = :pid
+            ORDER BY prc_dt DESC
+            LIMIT 1
+        """
+        
 
         for row in patients_result:
             patient_id = row[0]
@@ -212,6 +221,9 @@ def get_patients_with_consultation(cnx):
             meds_result = cnx.execute(sqlalchemy.text(sql_meds), {'pid': patient_id}).fetchall()
             medications = [{"name": med[0], "dosage": med[1], "frequency":med[2], "notes": med[3],"detailID": med[4]} for med in meds_result] if meds_result else []
 
+            last_prediction_row = cnx.execute(sqlalchemy.text(sql_last_prediction), {'pid': patient_id}).fetchone()
+            last_prediction = last_prediction_row[0] if last_prediction_row else None
+
             data.append({
                 'patientID': row[0],
                 'email': row[1],
@@ -221,7 +233,8 @@ def get_patients_with_consultation(cnx):
                 'isHavingHypertension': row[5] if row[5] is not None else "",
                 'last_visit': last_visit,
                 'consultation_id': consultation_id,
-                'medications': medications
+                'medications': medications,
+                'classification': last_prediction
             })
 
         return jsonify(data)
