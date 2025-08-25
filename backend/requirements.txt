@@ -1,4 +1,5 @@
 flask==3.0.0
+Flask-Cors>=3.1.0
 pypika==0.48.9
 mysql-connector-python==8.2.0
 bcrypt==4.0.1
@@ -14,3 +15,4 @@ cloud-sql-python-connector>=0
 mysql-connector-python==8.2.0
 sqlalchemy>=0
 python-dotenv>=0
+gunicorn>=21.0
