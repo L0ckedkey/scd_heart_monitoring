@@ -19,5 +19,5 @@ COPY service-account-key.json /app/service-account-key.json
 EXPOSE 8003
 
 # Start the Flask app
-CMD ["python3", "app.py"]
-
+# CMD ["python3", "app.py"]
+CMD ["gunicorn", "--bind", "0.0.0.0:8003", "--workers", "1", "app:app"]

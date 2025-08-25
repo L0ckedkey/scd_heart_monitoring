@@ -12,6 +12,6 @@ services:
     environment:
       - GOOGLE_APPLICATION_CREDENTIALS=/app/service-account-key.json
     env_file:
-      - ../.env
+      - .env
     command: ["python3", "app.py"]
     restart: unless-stopped
