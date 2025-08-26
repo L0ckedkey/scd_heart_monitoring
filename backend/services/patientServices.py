@@ -355,7 +355,7 @@ def get_pending_consultations(cnx):
         return jsonify({'status': False, 'error': str(e)})
 
 
-def set_consultation(curr_data, cnx, , key_list=['patientID']):
+def set_consultation(curr_data, cnx, key_list=['patientID']):
     try:
         status, data = validate_dict(curr_data, key_list)
     except Exception as e:
