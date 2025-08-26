@@ -353,3 +353,42 @@ def get_pending_consultations(cnx):
 
     except Exception as e:
         return jsonify({'status': False, 'error': str(e)})
+
+
+def set_consultation(curr_data, cnx, , key_list=['patientID']):
+    try:
+        status, data = validate_dict(curr_data, key_list)
+    except Exception as e:
+        return jsonify({
+            "status": False,
+            "error": "Key Error!",
+            "message": str(e)
+        }), 400
+
+    if status: 
+        try:
+            tgt_tab = Table('consultation')
+            q = Query.into(tgt_tab).columns(tuple(key_list)).insert(tuple(data))
+            cnx.execute(sqlalchemy.text(str(q).replace('"','`')))
+            cnx.commit()
+            
+            resp_dict = {
+                "status": True,
+                "message": "Medication inserted successfully",
+                "data": {
+                    "id": lastrowid[0],
+                    **{i: curr_data[i] for i in key_list}
+                }
+            }
+            return jsonify(resp_dict)
+        except Exception as e:
+            return jsonify({
+                "status": False,
+                "error": str(e)
+            }), 500
+    else:
+        return jsonify({
+            "status": False,
+            "error": "Validation failed",
+            "missing_keys": key_list
+        }), 400

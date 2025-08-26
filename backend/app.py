@@ -125,8 +125,6 @@ def del_medicine():
     curr_data = request.get_json()
     return delete_medicine(curr_data, g.db_conn)
 
-
-
 @api_bp.route('/detail-medicine', methods=['DELETE'])
 def del_detail_medicine():
     curr_data = request.get_json()
@@ -175,6 +173,11 @@ def get_history(userId):
 @api_bp.route('/predict', methods=['POST'])
 def get_predictions():
     return make_predictions(request.get_json(), g.db_conn)
+
+@api_bp.route('/consultation', methods=['POST'])
+def set_consul():
+    return set_consultation(request.get_json(), g.db_conn)
+
 
 @app.route("/")
 def index():
