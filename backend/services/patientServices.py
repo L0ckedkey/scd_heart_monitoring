@@ -166,7 +166,7 @@ def login_patient(curr_data, cnx, key_list=['email','password']):
             
             return jsonify(resp_dict)
         else:
-            return jsonify({"status": False, "message": "Invalid password"})
+            return jsonify({"status": False, "message": "Invalid password"}, 401)
     
     return jsonify({"status": False, "message": "Validation failed"})
 
@@ -355,7 +355,7 @@ def get_pending_consultations(cnx):
         return jsonify({'status': False, 'error': str(e)})
 
 
-def set_consultation(curr_data, cnx, , key_list=['patientID']):
+def set_consultation(curr_data, cnx, key_list=['patientID']):
     try:
         status, data = validate_dict(curr_data, key_list)
     except Exception as e:
