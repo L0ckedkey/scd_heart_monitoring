@@ -374,11 +374,7 @@ def set_consultation(curr_data, cnx, key_list=['patientID']):
             
             resp_dict = {
                 "status": True,
-                "message": "Medication inserted successfully",
-                "data": {
-                    "id": lastrowid[0],
-                    **{i: curr_data[i] for i in key_list}
-                }
+                "message": "Consultation inserted successfully",
             }
             return jsonify(resp_dict)
         except Exception as e:
