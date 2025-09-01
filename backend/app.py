@@ -182,6 +182,10 @@ def get_predictions():
 def set_consul():
     return set_consultation(request.get_json(), g.db_conn)
 
+@api_bp.route('/medicine/<patientId>', methods=['GET'])
+def get_patient_medicine(patientId):
+    return get_patient_medication(patientId, g.db_conn)
+
 
 @app.route("/")
 def index():

@@ -301,6 +301,22 @@ def med_assign_schedule(curr_data, cnx):
 
     except Exception as e:
         return jsonify({"status": False, "error": str(e)})
+    
+def get_patient_medication(patient_id, cnx):
+    try:
+        sql_meds = """
+                SELECT mm.medName, mm.dosage, dm.frequency, dm.notes
+                FROM detail_medicine dm
+                JOIN master_medicine mm ON mm.medID = dm.medID
+                WHERE dm.patientID = :pid
+            """
+        meds_result = cnx.execute(sqlalchemy.text(sql_meds), {'pid': patient_id}).fetchall()
+        medications = [{"name": med[0], "dosage": med[1], "frequency": med[2], "notes": med[3]} for med in meds_result] if meds_result else []
+
+        return jsonify(medications)
+
+    except Exception as e:
+        return jsonify({'status': False, 'error': str(e)})
 
 def get_pending_consultations(cnx):
     try:
