@@ -2,7 +2,7 @@ from misc.utils import *
 import bcrypt 
 from pypika import Query, Table
 from datetime import datetime, timedelta
-from flask import jsonify
+from flask import jsonify, make_response
 import sqlalchemy
 
 def register_patient_data(curr_data,cnx,key_list = ["email","password"]):
@@ -166,7 +166,7 @@ def login_patient(curr_data, cnx, key_list=['email','password']):
             
             return jsonify(resp_dict)
         else:
-            return jsonify({"status": False, "message": "Invalid password"}, 401)
+            return make_response(jsonify({"status": False, "message": "Invalid password"}), 401)
     
     return jsonify({"status": False, "message": "Validation failed"})
 
