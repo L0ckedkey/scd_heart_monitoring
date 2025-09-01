@@ -96,6 +96,10 @@ def valid_pin():
 def pending_consultations():
     return get_pending_consultations(g.db_conn)
 
+@api_bp.route('/pending-consultations/<patientId>', methods=['GET'])
+def pending_patient_consultations(patientId):
+    return get_pending_patient_consultations(patientId, g.db_conn)
+
 @api_bp.route('/patients', methods=['GET'])
 def getPatients():
     return get_patients_with_consultation(g.db_conn)

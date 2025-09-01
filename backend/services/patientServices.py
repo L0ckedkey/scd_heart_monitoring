@@ -353,6 +353,37 @@ def get_pending_consultations(cnx):
 
     except Exception as e:
         return jsonify({'status': False, 'error': str(e)})
+    
+def get_pending_patient_consultations(patient_id, cnx):
+    try:
+        sql = """
+        SELECT c.patientID,
+               c.consultation_time,
+               c.status,
+               p.email,
+               p.gender,
+               p.cholesterolLevel,
+               p.isSmoker,
+               p.isHavingHypertension,
+               c.consultationID
+        FROM consultation c
+        JOIN patients p ON c.patientID = p.patientID
+        WHERE c.status = 'pending' and c.patientID = :pid
+        ORDER BY c.created_at DESC
+        """
+
+        result = cnx.execute(sqlalchemy.text(sql), {'pid': patient_id}).fetchall()
+        
+        if not result:
+            data = { "message": "there is no pending consultation" }
+        else:
+            data = { "message": "there is pending consultation" }
+
+        return jsonify(data), 200
+
+    except Exception as e:
+        return jsonify({'status': False, 'error': str(e)})
+
 
 
 def set_consultation(curr_data, cnx, key_list=['patientID']):
